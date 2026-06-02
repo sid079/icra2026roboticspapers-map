@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)file:///Users/siddeshchoudhary/Downloads/index_1.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICRA 2026 · The Market Map of Robot Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./index_files/css2" rel="stylesheet">
+<style>
+  :root{
+    --ink:#100f0b; --panel:#19170f; --panel2:#211e15; --line:#332f22;
+    --cream:#ece4d2; --muted:#9a917a; --faint:#6a6353;
+    --amber:#e6a13c; --amber-soft:#caa86a;
+    /* per-bet hues */
+    --c-human:#7fb069; --c-teleop:#5aa9c9; --c-prior:#c98bd6;
+    --c-world:#e0843c; --c-reward:#e6c34c; --c-robust:#d7615a; --c-eco:#9a92a6;
+    --c-synth:#6bbf9b; --c-ctrl:#b08968;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--ink);color:var(--cream);font-family:"Newsreader",Georgia,serif}
+  body{
+    min-height:100vh;
+    background-image:
+      radial-gradient(1200px 600px at 80% -10%, rgba(230,161,60,.07), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(90,169,201,.06), transparent 60%);
+  }
+  .wrap{max-width:1280px;margin:0 auto;padding:34px 26px 90px}
+  .mono{font-family:"IBM Plex Mono",monospace}
+
+  /* header */
+  header{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:26px}
+  .kicker{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--amber);display:flex;gap:14px;align-items:center}
+  .kicker::before{content:"";width:30px;height:1px;background:var(--amber)}
+  h1{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(34px,6vw,62px);line-height:.98;letter-spacing:-.02em;margin:14px 0 6px}
+  h1 em{font-style:italic;font-weight:500;color:var(--amber-soft)}
+  .sub{color:var(--muted);font-size:17px;max-width:680px;line-height:1.5}
+  .sub b{color:var(--cream);font-weight:600}
+
+  /* controls */
+  .controls{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin:24px 0 6px}
+  .toggle{display:inline-flex;border:1px solid var(--line);border-radius:2px;overflow:hidden}
+  .toggle button{background:transparent;color:var(--muted);border:none;padding:9px 18px;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:.2s}
+  .toggle button.on{background:var(--amber);color:#1a1408;font-weight:600}
+  .toggle button:not(.on):hover{color:var(--cream);background:var(--panel2)}
+  .filters{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+  .flabel{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-right:2px}
+  .pill{background:var(--panel);border:1px solid var(--line);color:var(--muted);padding:5px 11px;border-radius:20px;font-family:"IBM Plex Mono",monospace;font-size:11px;cursor:pointer;transition:.18s}
+  .pill:hover{border-color:var(--amber-soft);color:var(--cream)}
+  .pill.on{background:var(--amber);border-color:var(--amber);color:#1a1408;font-weight:600}
+
+  /* matrix */
+  .scroll{overflow-x:auto;padding-bottom:8px;margin-top:18px}
+  .matrix{display:grid;min-width:980px;border:1px solid var(--line);background:var(--line);gap:1px}
+  .cell, .colhead, .rowhead, .corner{background:var(--ink);padding:10px}
+  .corner{background:var(--panel)}
+  .colhead{position:sticky;top:0;z-index:3;background:var(--panel);padding:11px 10px}
+  .colhead .ct{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.04em;font-weight:600;line-height:1.25}
+  .colhead .cn{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--faint);margin-top:3px}
+  .rowhead{position:sticky;left:0;z-index:2;background:var(--panel);min-width:158px;max-width:200px;display:flex;flex-direction:column;justify-content:center}
+  .rowhead .rt{font-family:"Fraunces",serif;font-weight:600;font-size:16px;line-height:1.1}
+  .rowhead .rn{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--faint);margin-top:5px;letter-spacing:.04em}
+  .cell{min-height:74px;display:flex;flex-direction:column;gap:6px;transition:background .2s}
+  .cell.has:hover{background:var(--panel)}
+  .chip{position:relative;text-align:left;border:1px solid var(--line);background:var(--panel2);color:var(--cream);
+    border-left:3px solid var(--ch,var(--amber));border-radius:2px;padding:7px 9px;cursor:pointer;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;line-height:1.2;transition:transform .15s,box-shadow .15s,opacity .2s;
+    opacity:0;transform:translateY(6px);animation:rise .5s forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .chip:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.45);border-color:var(--ch,var(--amber))}
+  .chip .yr{display:block;font-size:9.5px;color:var(--faint);margin-top:4px;letter-spacing:.06em}
+  .chip.dim{opacity:.16;filter:grayscale(.6);pointer-events:none}
+  .chip .star{color:var(--amber);font-style:normal}
+
+  /* timeline */
+  #timeline{margin-top:22px;display:none}
+  .tlnote{border:1px solid var(--line);border-left:3px solid var(--amber);background:var(--panel);padding:16px 18px;margin-bottom:24px;border-radius:2px}
+  .tlnote h3{font-family:"Fraunces",serif;font-size:19px;margin-bottom:6px}
+  .tlnote p{color:var(--muted);font-size:15px;line-height:1.55}
+  .trow{display:grid;grid-template-columns:96px 1fr;gap:18px;border-bottom:1px solid var(--line);padding:14px 4px;align-items:start}
+  .trow .date{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--amber);padding-top:3px}
+  .trow .body h4{font-family:"Fraunces",serif;font-size:18px;font-weight:600;cursor:pointer;display:inline-block}
+  .trow .body h4:hover{color:var(--amber-soft)}
+  .trow .body .meta{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--faint);margin-top:3px}
+  .trow .body p{color:var(--muted);font-size:14.5px;line-height:1.5;margin-top:7px;max-width:760px}
+  .tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;padding:2px 7px;border:1px solid var(--line);border-radius:20px;color:var(--muted);margin:2px 4px 0 0}
+
+  /* drawer */
+  .scrim{position:fixed;inset:0;background:rgba(8,7,4,.6);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:.25s;z-index:40}
+  .scrim.on{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(480px,92vw);background:var(--panel);border-left:1px solid var(--line);
+    transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:50;overflow-y:auto;padding:30px 28px 60px}
+  .drawer.on{transform:none}
+  .dclose{position:absolute;top:18px;right:20px;background:none;border:1px solid var(--line);color:var(--muted);width:34px;height:34px;border-radius:2px;cursor:pointer;font-size:18px;font-family:"IBM Plex Mono",monospace}
+  .dclose:hover{color:var(--cream);border-color:var(--amber)}
+  .dbet{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dch,var(--amber))}
+  .drawer h2{font-family:"Fraunces",serif;font-weight:900;font-size:30px;line-height:1.02;margin:8px 0 4px}
+  .dmeta{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);margin-bottom:16px}
+  .dsec{margin-top:18px}
+  .dsec .h{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+  .dsec p{font-size:16px;line-height:1.55;color:var(--cream)}
+  .dsec p.why{color:var(--amber-soft)}
+  .dtags{margin-top:6px}
+  .dlinks{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .dlinks a{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--cream);text-decoration:none;border:1px solid var(--line);padding:9px 12px;border-radius:2px;transition:.18s;display:flex;justify-content:space-between}
+  .dlinks a:hover{border-color:var(--amber);color:var(--amber);background:var(--ink)}
+  .dlinks a::after{content:"↗";color:var(--faint)}
+  .dlinks a:hover::after{color:var(--amber)}
+  .flag{font-size:12.5px;color:var(--faint);font-style:italic;margin-top:6px;line-height:1.4}
+
+  footer{margin-top:40px;border-top:1px solid var(--line);padding-top:18px;color:var(--faint);font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:1.7}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px}
+  .legend span{display:flex;align-items:center;gap:6px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+  .legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+  @media(max-width:640px){
+    .wrap{padding:22px 14px 80px}
+    .rowhead{min-width:120px}
+    .controls{gap:12px}
+  }
+  .tip{position:fixed;z-index:9999;max-width:340px;pointer-events:none;opacity:0;transition:opacity .12s ease;
+       background:#0b0d11;color:#ecebe6;border:1px solid var(--line);border-left:3px solid var(--amber);
+       padding:9px 12px;border-radius:8px;font-size:13px;line-height:1.45;box-shadow:0 10px 34px rgba(0,0,0,.55)}
+  .tip.on{opacity:1}
+  .chip{cursor:pointer}
+  .chip:hover{filter:brightness(1.12);outline:1px solid var(--amber)}
+  .matrix{min-width:1060px}
+  .cell{min-height:40px;gap:5px;padding:6px}
+  .chip{padding:7px 9px;font-size:13px;line-height:1.15;border-radius:6px}
+  .chip .yr{display:none}
+  .colhead{padding:9px 9px}
+  .colhead .ct{font-size:11px}
+  .rowhead{min-width:150px;max-width:170px}
+  .rowhead .rt{font-size:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">ICRA 2026 · Vienna · Robot Learning</div>
+    <h1>A Market Map of <em>Robot Learning</em></h1>
+    <p class="sub">Every paper is one bet on one durable problem. Rows are problems, columns are technical bets. <b>Hover</b> a tile for the one-line summary, <b>click</b> to open the paper.</p>
+    <p class="sub" style="margin-top:8px"><b style="color:var(--amber)">Missed a paper?</b> DM or reply <a href="https://twitter.com/Siddesh_239" target="_blank" rel="noopener" style="color:var(--amber)">@Siddesh_239</a> and I'll add it for everyone.</p>
+    <div class="controls">
+      <div class="toggle">
+        <button id="bMap" class="on" onclick="setView(&#39;map&#39;)">Market Map</button>
+        <button id="bTime" onclick="setView(&#39;time&#39;)">Timeline</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="scroll" id="mapWrap">
+    <div class="matrix" id="matrix" style="grid-template-columns: 150px repeat(8, minmax(0px, 1fr));"><div class="corner"><div class="mono" style="font-size:10px;color:var(--faint);letter-spacing:.2em">PROBLEM ↓ / BET →</div></div><div class="colhead"><div class="ct" style="color:var(--c-human)">Human Video</div><div class="cn">bypass the embodiment gap</div></div><div class="colhead"><div class="ct" style="color:var(--c-teleop)">Scale Teleop</div><div class="cn">keep data robot-native</div></div><div class="colhead"><div class="ct" style="color:var(--c-synth)">Synthetic / Sim Data</div><div class="cn">generate data in sim</div></div><div class="colhead"><div class="ct" style="color:var(--c-prior)">Foundation-Model Priors</div><div class="cn">borrow structure from VLMs</div></div><div class="colhead"><div class="ct" style="color:var(--c-world)">World Models / Real-to-Sim</div><div class="cn">predict &amp; reconstruct worlds</div></div><div class="colhead"><div class="ct" style="color:var(--c-reward)">Reward Models</div><div class="cn">score without ground truth</div></div><div class="colhead"><div class="ct" style="color:var(--c-robust)">Robustness &amp; Monitoring</div><div class="cn">catch &amp; survive failures</div></div><div class="colhead"><div class="ct" style="color:var(--c-ctrl)">Control &amp; Planning</div><div class="cn">move the body, plan fast</div></div><div class="rowhead"><div class="rt">Data Bottleneck</div><div class="rn">the dominant story</div></div><div class="cell has"><button class="chip" data-id="masq" style="--ch: var(--c-human); animation-delay: 40ms;">Masquerade<span class="yr">2025-08 · Stanford (Bohg)</span></button><button class="chip" data-id="emma" style="--ch: var(--c-human); animation-delay: 80ms;"><span class="star">★ </span>EMMA<span class="yr">2025-09 · Georgia Tech (Danfei Xu)</span></button><button class="chip" data-id="hego" style="--ch: var(--c-human); animation-delay: 120ms;"><span class="star">★ </span>HumanEgo<span class="yr">2026-05 · U. Maryland</span></button><button class="chip" data-id="react" style="--ch: var(--c-human); animation-delay: 160ms;">ReActor<span class="yr">2026-05 · ETH / Disney-style</span></button><button class="chip" data-id="egovla" style="--ch: var(--c-human); animation-delay: 200ms;">egoVLA<span class="yr">2025-09 · Kyoto + NII + Sony</span></button></div><div class="cell has"><button class="chip" data-id="cobalt" style="--ch: var(--c-teleop); animation-delay: 240ms;"><span class="star">★ </span>COBALT<span class="yr">2026-06 · PAIR Lab (Animesh Garg, GT)</span></button></div><div class="cell has"><button class="chip" data-id="molmo" style="--ch: var(--c-synth); animation-delay: 280ms;"><span class="star">★ </span>MolmoBot<span class="yr">2026-03 · Ai2 + UW + Princeton</span></button></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="rowhead"><div class="rt">Sim-to-Real &amp; World Models</div><div class="rn">build a usable world</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="neurok" style="--ch: var(--c-world); animation-delay: 320ms;">NeuROK<span class="yr">2026-05 · Stanford (Jiajun Wu)</span></button><button class="chip" data-id="r2s" style="--ch: var(--c-world); animation-delay: 360ms;"><span class="star">★ </span>Real-to-Sim Eval (GS)<span class="yr">2025-11 · Columbia + SceniX (Yunzhu Li)</span></button></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="rowhead"><div class="rt">Generalization &amp; Long-Horizon</div><div class="rn">don't overfit; chain steps</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="stack" style="--ch: var(--c-prior); animation-delay: 400ms;">STACK<span class="yr">2026-06 · Stanford (Fei-Fei, Jiajun Wu)</span></button><button class="chip" data-id="vlm3" style="--ch: var(--c-prior); animation-delay: 440ms;">VLM³<span class="yr">2026-05 · Meta FAIR</span></button><button class="chip" data-id="ivra" style="--ch: var(--c-prior); animation-delay: 480ms;">IVRA<span class="yr">2026-01 · Stony Brook (Ryoo)</span></button><button class="chip" data-id="dynaflip" style="--ch: var(--c-prior); animation-delay: 520ms;">DynaFLIP<span class="yr">2026-05 · SNU + UMD + Georgia Tech</span></button></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="rowhead"><div class="rt">Reward &amp; Supervision</div><div class="rn">what signal trains RL?</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="sole" style="--ch: var(--c-reward); animation-delay: 560ms;">SOLE-R1<span class="yr">2026-03 · MIT + RAI Institute</span></button><button class="chip" data-id="robometer" style="--ch: var(--c-reward); animation-delay: 600ms;">Robometer<span class="yr">2026-03 · USC / UW / NVIDIA / MIT</span></button><button class="chip" data-id="mirl" style="--ch: var(--c-reward); animation-delay: 640ms;">Masked IRL<span class="yr">2025-11 · MIT CSAIL (Bobu)</span></button></div><div class="cell"></div><div class="cell"></div><div class="rowhead"><div class="rt">Deployment Reliability</div><div class="rn">trust it in the wild</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="hns" style="--ch: var(--c-robust); animation-delay: 680ms;"><span class="star">★ </span>Hide-and-Seek<span class="yr">2026-05 · Georgia Tech (S. Li, Z. Kira)</span></button><button class="chip" data-id="ve2vf" style="--ch: var(--c-robust); animation-delay: 720ms;">VE2VF<span class="yr">2026-05 · TU Wien / DLR</span></button><button class="chip" data-id="seal" style="--ch: var(--c-robust); animation-delay: 760ms;">SEAL<span class="yr">2025-10 · CMU + NVIDIA</span></button></div><div class="cell"></div><div class="rowhead"><div class="rt">Humanoid &amp; Whole-Body</div><div class="rn">coordinate the whole body</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="bfm" style="--ch: var(--c-ctrl); animation-delay: 800ms;"><span class="star">★ </span>BFM (Behavior FM)<span class="yr">2025-09 · Shanghai AI Lab + PKU</span></button><button class="chip" data-id="m4d" style="--ch: var(--c-ctrl); animation-delay: 840ms;">M4Diffuser<span class="yr">2025-09 · Hamburg + TUM + Agile Robots</span></button></div><div class="rowhead"><div class="rt">Efficient Adaptation</div><div class="rn">adapt fast, plan real-time</div></div><div class="cell has"><button class="chip" data-id="hand" style="--ch: var(--c-human); animation-delay: 880ms;">HAND<span class="yr">2025-05 · USC (Biyik, J. Zhang)</span></button></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="tmrl" style="--ch: var(--c-ctrl); animation-delay: 920ms;">TMRL<span class="yr">2026-05 · UW + Amazon (A. Gupta)</span></button><button class="chip" data-id="gmpc" style="--ch: var(--c-ctrl); animation-delay: 960ms;">GMPC-IMLE<span class="yr">2026-03 · Simon Fraser University</span></button></div><div class="rowhead"><div class="rt">Dexterity &amp; Hardware</div><div class="rn">tracked gap — no paper yet</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div></div>
+  </div>
+
+  <div id="timeline"><div class="tlnote"><h3>The evolution that matters most — the Data Bottleneck</h3>
+    <p>Read top to bottom: the field first tries to <b>edit pixels</b> (Masquerade), then <b>co-train + retarget</b> (EMMA, ReActor), then <b>change the representation</b> so the human/robot gap vanishes (HumanEgo) — while a counter-camp just makes <b>teleop cheap and global</b> (COBALT). Same problem, shifting bet.</p></div><div class="trow"><div class="date">2025-05</div><div class="body">
+      <h4 onclick="window.open(&#39;https://liralab.usc.edu/handretrieval/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">HAND <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">USC (Biyik, J. Zhang) · Efficient Adaptation</div>
+      <p>Teach a robot a new task in minutes from ONE human hand demo, by retrieving matching sub-trajectories from existing play data.</p>
+      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
+      <span class="tag">data</span><span class="tag">control</span>
+    </div></div><div class="trow"><div class="date">2025-08</div><div class="body">
+      <h4 onclick="window.open(&#39;https://masquerade-robot.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">Masquerade <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Stanford (Bohg) · Data Bottleneck</div>
+      <p>Turn in-the-wild human videos into 'robotized' clips by editing the human out and a robot in, then co-train on them.</p>
+      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
+      <span class="tag">data</span>
+    </div></div><div class="trow"><div class="date">2025-09</div><div class="body">
+      <h4 onclick="window.open(&#39;https://biscue5.github.io/egovla-project-page/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">egoVLA <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Kyoto + NII + Sony · Data Bottleneck</div>
+      <p>Build a large VLA pre-training dataset straight from RAW egocentric human video — no hand-pose annotations.</p>
+      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
+      <span class="tag">data</span>
+    </div></div><div class="trow"><div class="date">2025-09</div><div class="body">
+      <h4 onclick="window.open(&#39;https://sites.google.com/view/m4diffuser&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">M4Diffuser <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Hamburg + TUM + Agile Robots · Humanoid &amp; Whole-Body</div>
+      <p>Multi-view diffusion policy + manipulability-aware whole-body control for robust mobile manipulation.</p>
+      <span class="tag" style="border-color:var(--c-ctrl);color:var(--c-ctrl)">Control &amp; Planning</span>
+      <span class="tag">control</span>
+    </div></div><div class="trow"><div class="date">2025-09</div><div class="body">
+      <h4 onclick="window.open(&#39;https://bfm4humanoid.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ BFM (Behavior FM) <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Shanghai AI Lab + PKU · Humanoid &amp; Whole-Body</div>
+      <p>A generative 'foundation model' for humanoid whole-body control: one pretrained model, many behaviors, fast adaptation to new ones.</p>
+      <span class="tag" style="border-color:var(--c-ctrl);color:var(--c-ctrl)">Control &amp; Planning</span>
+      <span class="tag">control</span>
+    </div></div><div class="trow"><div class="date">2025-09</div><div class="body">
+      <h4 onclick="window.open(&#39;https://ego-moma.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ EMMA <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Georgia Tech (Danfei Xu) · Data Bottleneck</div>
+      <p>Train MOBILE manipulation from human full-body motion data, sidestepping expensive mobile-robot teleoperation.</p>
+      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
+      <span class="tag">data</span>
+    </div></div><div class="trow"><div class="date">2025-10</div><div class="body">
+      <h4 onclick="window.open(&#39;https://yilin-wu98.github.io/steering-reasoning-vla/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">SEAL <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">CMU + NVIDIA · Deployment Reliability</div>
+      <p>Make a reasoning VLA 'do what it says': at runtime, pick the action sequence whose simulated outcome matches the model's own textual plan.</p>
+      <span class="tag" style="border-color:var(--c-robust);color:var(--c-robust)">Robustness &amp; Monitoring</span>
+      <span class="tag">control</span>
+    </div></div><div class="trow"><div class="date">2025-11</div><div class="body">
+      <h4 onclick="window.open(&#39;https://mit-clear-lab.github.io/Masked-IRL/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">Masked IRL <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">MIT CSAIL (Bobu) · Reward &amp; Supervision</div>
+      <p>Learn preference reward functions from demos + language, using an LLM to decide which parts of the state actually matter.</p>
+      <span class="tag" style="border-color:var(--c-reward);color:var(--c-reward)">Reward Models</span>
+      <span class="tag">reward</span>
+    </div></div><div class="trow"><div class="date">2025-11</div><div class="body">
+      <h4 onclick="window.open(&#39;https://real2sim-eval.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ Real-to-Sim Eval (GS) <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Columbia + SceniX (Yunzhu Li) · Sim-to-Real &amp; World Models</div>
+      <p>Evaluate policies in a photoreal digital twin built from real video — Gaussian Splatting for looks, a soft-body twin for dynamics — so sim success predicts real success.</p>
+      <span class="tag" style="border-color:var(--c-world);color:var(--c-world)">World Models / Real-to-Sim</span>
+      <span class="tag">world</span>
+    </div></div><div class="trow"><div class="date">2026-01</div><div class="body">
+      <h4 onclick="window.open(&#39;https://jongwoopark7978.github.io/IVRA/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">IVRA <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Stony Brook (Ryoo) · Generalization &amp; Long-Horizon</div>
+      <p>A training-free trick that sharpens a VLA's spatial understanding by reusing affinity hints already inside its own vision encoder.</p>
+      <span class="tag" style="border-color:var(--c-prior);color:var(--c-prior)">Foundation-Model Priors</span>
+      <span class="tag">control</span>
+    </div></div><div class="trow"><div class="date">2026-03</div><div class="body">
+      <h4 onclick="window.open(&#39;https://allenai.github.io/MolmoBot/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ MolmoBot <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Ai2 + UW + Princeton · Data Bottleneck</div>
+      <p>Large-scale SIMULATED data alone enables zero-shot real manipulation — no real-robot data, no task-specific fine-tuning.</p>
+      <span class="tag" style="border-color:var(--c-synth);color:var(--c-synth)">Synthetic / Sim Data</span>
+      <span class="tag">data</span>
+    </div></div><div class="trow"><div class="date">2026-03</div><div class="body">
+      <h4 onclick="window.open(&#39;https://gmpc-imle.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">GMPC-IMLE <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Simon Fraser University · Efficient Adaptation</div>
+      <p>A lightweight generative planner for real-time MPC — diverse trajectories, 20-100x faster than diffusion planners.</p>
+      <span class="tag" style="border-color:var(--c-ctrl);color:var(--c-ctrl)">Control &amp; Planning</span>
+      <span class="tag">control</span>
+    </div></div><div class="trow"><div class="date">2026-03</div><div class="body">
+      <h4 onclick="window.open(&#39;https://robometer.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">Robometer <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">USC / UW / NVIDIA / MIT · Reward &amp; Supervision</div>
+      <p>A general-purpose robotic reward model trained on trajectory comparisons — dense, video-language rewards usable zero-shot.</p>
+      <span class="tag" style="border-color:var(--c-reward);color:var(--c-reward)">Reward Models</span>
+      <span class="tag">reward</span>
+    </div></div><div class="trow"><div class="date">2026-03</div><div class="body">
+      <h4 onclick="window.open(&#39;https://philip-mit.github.io/sole-r1/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">SOLE-R1 <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">MIT + RAI Institute · Reward &amp; Supervision</div>
+      <p>A video-language reasoning model used as the SOLE reward for on-robot RL — robots learn unseen tasks from random init, no ground-truth reward.</p>
+      <span class="tag" style="border-color:var(--c-reward);color:var(--c-reward)">Reward Models</span>
+      <span class="tag">reward</span>
+    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
+      <h4 onclick="window.open(&#39;https://dynaflip-robotics.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">DynaFLIP <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">SNU + UMD + Georgia Tech · Generalization &amp; Long-Horizon</div>
+      <p>A dynamics-aware visual backbone for manipulation: pretrain an encoder by aligning image transitions, language, and 3D flow so perception keeps control-relevant info.</p>
+      <span class="tag" style="border-color:var(--c-prior);color:var(--c-prior)">Foundation-Model Priors</span>
+      <span class="tag">control</span>
+    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
+      <h4 onclick="window.open(&#39;https://weirdlabuw.github.io/tmrl/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">TMRL <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">UW + Amazon (A. Gupta) · Efficient Adaptation</div>
+      <p>Bridge BC pretraining and RL fine-tuning so you can fine-tune a VLA (π0) in the real world in under an hour.</p>
+      <span class="tag" style="border-color:var(--c-ctrl);color:var(--c-ctrl)">Control &amp; Planning</span>
+      <span class="tag">control</span>
+    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
+      <h4 onclick="window.open(&#39;https://tuwien-asl.github.io/VE2VF/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">VE2VF <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">TU Wien / DLR · Deployment Reliability</div>
+      <p>Distill a vision-using teacher into a vision-FREE student that runs on force/torque + pose alone — robust contact-rich assembly.</p>
+      <span class="tag" style="border-color:var(--c-robust);color:var(--c-robust)">Robustness &amp; Monitoring</span>
+      <span class="tag">control</span>
+    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
+      <h4 onclick="window.open(&#39;https://arxiv.org/abs/2605.30834&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ Hide-and-Seek <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Georgia Tech (S. Li, Z. Kira) · Deployment Reliability</div>
+      <p>Detect VLA execution failures AT RUNTIME, localizing the failing actions from trajectory-level labels alone.</p>
+      <span class="tag" style="border-color:var(--c-robust);color:var(--c-robust)">Robustness &amp; Monitoring</span>
+      <span class="tag">reward</span>
+    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
+      <h4 onclick="window.open(&#39;https://github.com/facebookresearch/VLM3&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">VLM³ <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Meta FAIR · Generalization &amp; Long-Horizon</div>
+      <p>Standard VLMs are 'native 3D learners' — with no architecture or loss changes they do metric depth, pose, and correspondence.</p>
+      <span class="tag" style="border-color:var(--c-prior);color:var(--c-prior)">Foundation-Model Priors</span>
+      <span class="tag">reward</span>
+    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
+      <h4 onclick="window.open(&#39;https://chen-geng.com/neurok&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">NeuROK <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Stanford (Jiajun Wu) · Sim-to-Real &amp; World Models</div>
+      <p>Turn any static 3D shape into an interactive, simulatable 4D object — no physics annotations, no category assumptions.</p>
+      <span class="tag" style="border-color:var(--c-world);color:var(--c-world)">World Models / Real-to-Sim</span>
+      <span class="tag">world</span>
+    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
+      <h4 onclick="window.open(&#39;https://reports.aha.studio/20260531-1042-reactor-motion-retargeting.html&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">ReActor <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">ETH / Disney-style · Data Bottleneck</div>
+      <p>Physics-aware motion retargeting: move human mocap onto robots of different shape so the result is physically executable.</p>
+      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
+      <span class="tag">control</span>
+    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
+      <h4 onclick="window.open(&#39;https://humanego-ai.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ HumanEgo <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">U. Maryland · Data Bottleneck</div>
+      <p>Learn deployable policies from MINUTES of human egocentric (Aria) video — no robot data — and transfer zero-shot to new robots.</p>
+      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
+      <span class="tag">data</span><span class="tag">reward</span>
+    </div></div><div class="trow"><div class="date">2026-06</div><div class="body">
+      <h4 onclick="window.open(&#39;https://icra-stack.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">STACK <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">Stanford (Fei-Fei, Jiajun Wu) · Generalization &amp; Long-Horizon</div>
+      <p>Discover composable skills from a handful of unsegmented demos by letting foundation models extract spatial + temporal structure.</p>
+      <span class="tag" style="border-color:var(--c-prior);color:var(--c-prior)">Foundation-Model Priors</span>
+      <span class="tag">control</span>
+    </div></div><div class="trow"><div class="date">2026-06</div><div class="body">
+      <h4 onclick="window.open(&#39;https://cobalt-teleop.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ COBALT <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
+      <div class="meta">PAIR Lab (Animesh Garg, GT) · Data Bottleneck</div>
+      <p>Turn robot teleoperation into a cloud web service: anyone, anywhere, drives a robot from a smartphone.</p>
+      <span class="tag" style="border-color:var(--c-teleop);color:var(--c-teleop)">Scale Teleop</span>
+      <span class="tag">data</span>
+    </div></div></div>
+
+  <footer>
+    <div>24 papers · 8 problems · 8 bets — a hand-built market map of robot-learning work around ICRA 2026. <span class="star" style="color:var(--amber)">★</span> = ones I found especially notable. Missed a paper? DM or reply <a href="https://twitter.com/Siddesh_239" target="_blank" rel="noopener" style="color:var(--amber)">@Siddesh_239</a>. Not affiliated with ICRA.</div>
+    <div class="legend" id="legend"><span><i style="background:var(--c-human)"></i>Human Video</span><span><i style="background:var(--c-teleop)"></i>Scale Teleop</span><span><i style="background:var(--c-synth)"></i>Synthetic / Sim Data</span><span><i style="background:var(--c-prior)"></i>Foundation-Model Priors</span><span><i style="background:var(--c-world)"></i>World Models / Real-to-Sim</span><span><i style="background:var(--c-reward)"></i>Reward Models</span><span><i style="background:var(--c-robust)"></i>Robustness &amp; Monitoring</span><span><i style="background:var(--c-ctrl)"></i>Control &amp; Planning</span></div>
+  </footer>
+</div>
+
+<div id="tip" class="tip" style="left: 621px; top: 462px;"><div style="font-weight:700;margin-bottom:2px">★ EMMA</div><div style="font-size:11px;color:#9a9aa2;margin-bottom:5px">2025-09 · Georgia Tech (Danfei Xu)</div><div>Train MOBILE manipulation from human full-body motion data, sidestepping expensive mobile-robot teleoperation.</div></div>
+
+<script>
+const BETS = [
+  {id:"human",   t:"Human Video",            n:"bypass the embodiment gap", c:"var(--c-human)"},
+  {id:"teleop",  t:"Scale Teleop",           n:"keep data robot-native",    c:"var(--c-teleop)"},
+  {id:"synth",   t:"Synthetic / Sim Data",   n:"generate data in sim",      c:"var(--c-synth)"},
+  {id:"prior",   t:"Foundation-Model Priors",n:"borrow structure from VLMs",c:"var(--c-prior)"},
+  {id:"world",   t:"World Models / Real-to-Sim",n:"predict & reconstruct worlds",c:"var(--c-world)"},
+  {id:"reward",  t:"Reward Models",          n:"score without ground truth",c:"var(--c-reward)"},
+  {id:"robust",  t:"Robustness & Monitoring",n:"catch & survive failures",  c:"var(--c-robust)"},
+  {id:"ctrl",    t:"Control & Planning",     n:"move the body, plan fast",  c:"var(--c-ctrl)"},
+];
+const ROWS = [
+  {id:"data",    t:"Data Bottleneck",            n:"the dominant story"},
+  {id:"sim",     t:"Sim-to-Real & World Models", n:"build a usable world"},
+  {id:"gen",     t:"Generalization & Long-Horizon",n:"don't overfit; chain steps"},
+  {id:"rewardp", t:"Reward & Supervision",       n:"what signal trains RL?"},
+  {id:"deploy",  t:"Deployment Reliability",     n:"trust it in the wild"},
+  {id:"humanoid",t:"Humanoid & Whole-Body",      n:"coordinate the whole body"},
+  {id:"eff",     t:"Efficient Adaptation",       n:"adapt fast, plan real-time"},
+  {id:"dex",     t:"Dexterity & Hardware",       n:"tracked gap — no paper yet"},
+];
+
+const P = [
+ {id:"masq",title:"Masquerade",row:"data",bet:"human",date:"2025-08",lab:"Stanford (Bohg)",region:"us",layers:["data"],star:false,
+  one:"Turn in-the-wild human videos into 'robotized' clips by editing the human out and a robot in, then co-train on them.",
+  links:[["Project + clips","https://masquerade-robot.github.io/"],["arXiv 2508.09976","https://arxiv.org/abs/2508.09976"]]},
+
+ {id:"emma",title:"EMMA",row:"data",bet:"human",date:"2025-09",lab:"Georgia Tech (Danfei Xu)",region:"us",layers:["data"],star:true,
+  one:"Train MOBILE manipulation from human full-body motion data, sidestepping expensive mobile-robot teleoperation.",
+  links:[["Project","https://ego-moma.github.io/"],["arXiv 2509.04443","https://arxiv.org/abs/2509.04443"],["YouTube","https://www.youtube.com/embed/Qq1Jp52Zj3Q"]]},
+
+ {id:"hego",title:"HumanEgo",row:"data",bet:"human",date:"2026-05",lab:"U. Maryland",region:"us",layers:["data","reward"],star:true,
+  one:"Learn deployable policies from MINUTES of human egocentric (Aria) video — no robot data — and transfer zero-shot to new robots.",
+  links:[["Project + clips","https://humanego-ai.github.io/"],["arXiv 2605.24934","https://arxiv.org/abs/2605.24934"],["Code","https://github.com/TX-Leo/HumanEgo"]]},
+
+ {id:"react",title:"ReActor",row:"data",bet:"human",date:"2026-05",lab:"ETH / Disney-style",region:"europe",layers:["control"],star:false,
+  one:"Physics-aware motion retargeting: move human mocap onto robots of different shape so the result is physically executable.",
+  links:[["Summary report","https://reports.aha.studio/20260531-1042-reactor-motion-retargeting.html"],["arXiv 2605.06593","https://arxiv.org/abs/2605.06593"]]},
+
+ {id:"cobalt",title:"COBALT",row:"data",bet:"teleop",date:"2026-06",lab:"PAIR Lab (Animesh Garg, GT)",region:"us",layers:["data"],star:true,
+  one:"Turn robot teleoperation into a cloud web service: anyone, anywhere, drives a robot from a smartphone.",
+  links:[["Project (verify)","https://cobalt-teleop.github.io/"],["PAIR Lab pubs","https://www.pair.toronto.edu/publications/"]]},
+
+ {id:"neurok",title:"NeuROK",row:"sim",bet:"world",date:"2026-05",lab:"Stanford (Jiajun Wu)",region:"us",layers:["world"],star:false,
+  one:"Turn any static 3D shape into an interactive, simulatable 4D object — no physics annotations, no category assumptions.",
+  links:[["Project","https://chen-geng.com/neurok"],["arXiv 2605.30347","https://arxiv.org/abs/2605.30347"]]},
+
+ {id:"stack",title:"STACK",row:"gen",bet:"prior",date:"2026-06",lab:"Stanford (Fei-Fei, Jiajun Wu)",region:"us",layers:["control"],star:false,
+  one:"Discover composable skills from a handful of unsegmented demos by letting foundation models extract spatial + temporal structure.",
+  links:[["Project","https://icra-stack.github.io/"],["PDF","https://icra-stack.github.io/STACK.pdf"]]},
+
+ {id:"vlm3",title:"VLM³",row:"gen",bet:"prior",date:"2026-05",lab:"Meta FAIR",region:"us",layers:["reward"],star:false,
+  one:"Standard VLMs are 'native 3D learners' — with no architecture or loss changes they do metric depth, pose, and correspondence.",
+  links:[["Code","https://github.com/facebookresearch/VLM3"],["arXiv 2605.30561","https://arxiv.org/abs/2605.30561"]]},
+
+ {id:"sole",title:"SOLE-R1",row:"rewardp",bet:"reward",date:"2026-03",lab:"MIT + RAI Institute",region:"us",layers:["reward"],star:false,
+  one:"A video-language reasoning model used as the SOLE reward for on-robot RL — robots learn unseen tasks from random init, no ground-truth reward.",
+  links:[["Project","https://philip-mit.github.io/sole-r1/"],["arXiv 2603.28730","https://arxiv.org/abs/2603.28730"]]},
+
+ {id:"robometer",title:"Robometer",row:"rewardp",bet:"reward",date:"2026-03",lab:"USC / UW / NVIDIA / MIT",region:"us",layers:["reward"],star:false,
+  one:"A general-purpose robotic reward model trained on trajectory comparisons — dense, video-language rewards usable zero-shot.",
+  links:[["Project","https://robometer.github.io/"],["arXiv 2603.02115","https://arxiv.org/abs/2603.02115"],["Demo UI","https://robometer-rewardeval-ui.hf.space"]]},
+
+ {id:"hns",title:"Hide-and-Seek",row:"deploy",bet:"robust",date:"2026-05",lab:"Georgia Tech (S. Li, Z. Kira)",region:"us",layers:["reward"],star:true,
+  one:"Detect VLA execution failures AT RUNTIME, localizing the failing actions from trajectory-level labels alone.",
+  links:[["arXiv 2605.30834","https://arxiv.org/abs/2605.30834"]]},
+
+ {id:"ve2vf",title:"VE2VF",row:"deploy",bet:"robust",date:"2026-05",lab:"TU Wien / DLR",region:"europe",layers:["control"],star:false,
+  one:"Distill a vision-using teacher into a vision-FREE student that runs on force/torque + pose alone — robust contact-rich assembly.",
+  links:[["Project","https://tuwien-asl.github.io/VE2VF/"],["arXiv 2605.29564","https://arxiv.org/abs/2605.29564"]]},
+
+ {id:"bfm",title:"BFM (Behavior FM)",row:"humanoid",bet:"ctrl",date:"2025-09",lab:"Shanghai AI Lab + PKU",region:"china",layers:["control"],star:true,
+  one:"A generative 'foundation model' for humanoid whole-body control: one pretrained model, many behaviors, fast adaptation to new ones.",
+  links:[["Project + gallery","https://bfm4humanoid.github.io/"],["arXiv 2509.13780","https://arxiv.org/abs/2509.13780"]]},
+
+ {id:"m4d",title:"M4Diffuser",row:"humanoid",bet:"ctrl",date:"2025-09",lab:"Hamburg + TUM + Agile Robots",region:"europe",layers:["control"],star:false,
+  one:"Multi-view diffusion policy + manipulability-aware whole-body control for robust mobile manipulation.",
+  links:[["Project","https://sites.google.com/view/m4diffuser"],["arXiv 2509.14980","https://arxiv.org/abs/2509.14980"]]},
+
+ {id:"tmrl",title:"TMRL",row:"eff",bet:"ctrl",date:"2026-05",lab:"UW + Amazon (A. Gupta)",region:"us",layers:["control"],star:false,
+  one:"Bridge BC pretraining and RL fine-tuning so you can fine-tune a VLA (π0) in the real world in under an hour.",
+  links:[["Project","https://weirdlabuw.github.io/tmrl/"],["arXiv 2605.12236","https://arxiv.org/abs/2605.12236"]]},
+
+ {id:"hand",title:"HAND",row:"eff",bet:"human",date:"2025-05",lab:"USC (Biyik, J. Zhang)",region:"us",layers:["data","control"],star:false,
+  one:"Teach a robot a new task in minutes from ONE human hand demo, by retrieving matching sub-trajectories from existing play data.",
+  links:[["Project","https://liralab.usc.edu/handretrieval/"],["arXiv 2505.20455","https://arxiv.org/abs/2505.20455"]]},
+
+ {id:"gmpc",title:"GMPC-IMLE",row:"eff",bet:"ctrl",date:"2026-03",lab:"Simon Fraser University",region:"canada",layers:["control"],star:false,
+  one:"A lightweight generative planner for real-time MPC — diverse trajectories, 20-100x faster than diffusion planners.",
+  links:[["Project","https://gmpc-imle.github.io/"],["arXiv 2603.13733","https://arxiv.org/abs/2603.13733"]]},
+
+ {id:"molmo",title:"MolmoBot",row:"data",bet:"synth",date:"2026-03",lab:"Ai2 + UW + Princeton",region:"us",layers:["data"],star:true,
+  one:"Large-scale SIMULATED data alone enables zero-shot real manipulation — no real-robot data, no task-specific fine-tuning.",
+  links:[["Project","https://allenai.github.io/MolmoBot/"],["arXiv 2603.16861","https://arxiv.org/abs/2603.16861"]]},
+
+ {id:"egovla",title:"egoVLA",row:"data",bet:"human",date:"2025-09",lab:"Kyoto + NII + Sony",region:"asia",layers:["data"],star:false,
+  one:"Build a large VLA pre-training dataset straight from RAW egocentric human video — no hand-pose annotations.",
+  links:[["Project","https://biscue5.github.io/egovla-project-page/"],["arXiv 2509.21986","https://arxiv.org/abs/2509.21986"]]},
+
+ {id:"r2s",title:"Real-to-Sim Eval (GS)",row:"sim",bet:"world",date:"2025-11",lab:"Columbia + SceniX (Yunzhu Li)",region:"us",layers:["world"],star:true,
+  one:"Evaluate policies in a photoreal digital twin built from real video — Gaussian Splatting for looks, a soft-body twin for dynamics — so sim success predicts real success.",
+  links:[["Project + GS viewer","https://real2sim-eval.github.io/"],["arXiv 2511.04665","https://arxiv.org/abs/2511.04665"]]},
+
+ {id:"seal",title:"SEAL",row:"deploy",bet:"robust",date:"2025-10",lab:"CMU + NVIDIA",region:"us",layers:["control"],star:false,
+  one:"Make a reasoning VLA 'do what it says': at runtime, pick the action sequence whose simulated outcome matches the model's own textual plan.",
+  links:[["Project","https://yilin-wu98.github.io/steering-reasoning-vla/"],["arXiv 2510.16281","https://arxiv.org/abs/2510.16281"]]},
+
+ {id:"ivra",title:"IVRA",row:"gen",bet:"prior",date:"2026-01",lab:"Stony Brook (Ryoo)",region:"us",layers:["control"],star:false,
+  one:"A training-free trick that sharpens a VLA's spatial understanding by reusing affinity hints already inside its own vision encoder.",
+  links:[["Project","https://jongwoopark7978.github.io/IVRA/"],["arXiv 2601.16207","https://arxiv.org/abs/2601.16207"]]},
+
+ {id:"mirl",title:"Masked IRL",row:"rewardp",bet:"reward",date:"2025-11",lab:"MIT CSAIL (Bobu)",region:"us",layers:["reward"],star:false,
+  one:"Learn preference reward functions from demos + language, using an LLM to decide which parts of the state actually matter.",
+  links:[["Project","https://mit-clear-lab.github.io/Masked-IRL/"],["arXiv 2511.14565","https://arxiv.org/abs/2511.14565"]]},
+
+ {id:"dynaflip",title:"DynaFLIP",row:"gen",bet:"prior",date:"2026-05",lab:"SNU + UMD + Georgia Tech",region:"asia",layers:["control"],star:false,
+  one:"A dynamics-aware visual backbone for manipulation: pretrain an encoder by aligning image transitions, language, and 3D flow so perception keeps control-relevant info.",
+  links:[["Project","https://dynaflip-robotics.github.io/"],["arXiv 2605.30350","https://arxiv.org/abs/2605.30350"],["Code","https://github.com/JU-SUK/DynaFLIP"]]},
+];
+
+// ---- build matrix ----
+const betById = Object.fromEntries(BETS.map(b=>[b.id,b]));
+const matrix = document.getElementById('matrix');
+matrix.style.gridTemplateColumns = `150px repeat(${BETS.length}, minmax(0,1fr))`;
+
+function buildMatrix(){
+  matrix.innerHTML="";
+  const corner=document.createElement('div');corner.className='corner';
+  corner.innerHTML='<div class="mono" style="font-size:10px;color:var(--faint);letter-spacing:.2em">PROBLEM ↓ / BET →</div>';
+  matrix.appendChild(corner);
+  BETS.forEach(b=>{
+    const h=document.createElement('div');h.className='colhead';
+    h.innerHTML=`<div class="ct" style="color:${b.c}">${b.t}</div><div class="cn">${b.n}</div>`;
+    matrix.appendChild(h);
+  });
+  let delay=0;
+  ROWS.forEach(r=>{
+    const rh=document.createElement('div');rh.className='rowhead';
+    rh.innerHTML=`<div class="rt">${r.t}</div><div class="rn">${r.n}</div>`;
+    matrix.appendChild(rh);
+    BETS.forEach(b=>{
+      const cell=document.createElement('div');cell.className='cell';
+      const here=P.filter(p=>p.row===r.id&&p.bet===b.id);
+      if(here.length)cell.classList.add('has');
+      here.forEach(p=>{
+        const chip=document.createElement('button');
+        chip.className='chip';chip.style.setProperty('--ch',b.c);
+        chip.style.animationDelay=(delay+=40)+'ms';
+        chip.dataset.id=p.id;
+        chip.innerHTML=`${p.star?'<span class="star">★ </span>':''}${p.title}<span class="yr">${p.date} · ${p.lab}</span>`;
+        chip.onclick=()=>window.open(p.links[0][1],'_blank','noopener');
+        chip.addEventListener('mouseenter',()=>showTip(p));
+        chip.addEventListener('mousemove',moveTip);
+        chip.addEventListener('mouseleave',hideTip);
+        cell.appendChild(chip);
+      });
+      matrix.appendChild(cell);
+    });
+  });
+}
+buildMatrix();
+
+// legend
+document.getElementById('legend').innerHTML = BETS.map(b=>`<span><i style="background:${b.c}"></i>${b.t}</span>`).join('');
+
+// ---- timeline ----
+const tl=document.getElementById('timeline');
+function buildTimeline(){
+  const sorted=[...P].sort((a,b)=>(a.date>b.date?1:-1));
+  let html=`<div class="tlnote"><h3>The evolution that matters most — the Data Bottleneck</h3>
+    <p>Read top to bottom: the field first tries to <b>edit pixels</b> (Masquerade), then <b>co-train + retarget</b> (EMMA, ReActor), then <b>change the representation</b> so the human/robot gap vanishes (HumanEgo) — while a counter-camp just makes <b>teleop cheap and global</b> (COBALT). Same problem, shifting bet.</p></div>`;
+  sorted.forEach(p=>{
+    const b=betById[p.bet];
+    html+=`<div class="trow"><div class="date">${p.date}</div><div class="body">
+      <h4 onclick="window.open('${p.links[0][1]}','_blank','noopener')" style="cursor:pointer" title="Open paper / project page">${p.star?'★ ':''}${p.title} <span style="font-weight:400;color:var(--faint);font-size:12px">&#8599;</span></h4>
+      <div class="meta">${p.lab} · ${ROWS.find(r=>r.id===p.row).t}</div>
+      <p>${p.one}</p>
+      <span class="tag" style="border-color:${b.c};color:${b.c}">${b.t}</span>
+      ${p.layers.map(l=>`<span class="tag">${l}</span>`).join('')}
+    </div></div>`;
+  });
+  tl.innerHTML=html;
+}
+buildTimeline();
+
+// ---- view toggle ----
+function setView(v){
+  document.getElementById('bMap').classList.toggle('on',v==='map');
+  document.getElementById('bTime').classList.toggle('on',v==='time');
+  document.getElementById('mapWrap').style.display=v==='map'?'block':'none';
+  tl.style.display=v==='time'?'block':'none';
+}
+
+// ---- filter ----
+function setFilter(f){
+  document.querySelectorAll('#filters .pill').forEach(p=>p.classList.toggle('on',p.dataset.f===f));
+  document.querySelectorAll('.chip').forEach(ch=>{
+    const p=P.find(x=>x.id===ch.dataset.id);
+    let match=true;
+    if(f==='all')match=true;
+    else if(f==='us'||f==='china'||f==='europe'||f==='canada'||f==='asia')match=p.region===f;
+    else match=p.layers.includes(f);
+    ch.classList.toggle('dim',!match);
+  });
+}
+
+// ---- hover tooltip ----
+const tip=document.getElementById('tip');
+function showTip(p){tip.innerHTML='<div style="font-weight:700;margin-bottom:2px">'+(p.star?'\u2605 ':'')+p.title+'</div><div style="font-size:11px;color:#9a9aa2;margin-bottom:5px">'+p.date+' \u00b7 '+p.lab+'</div><div>'+p.one+'</div>';tip.classList.add('on');}
+function moveTip(e){
+  const pad=14,w=tip.offsetWidth,h=tip.offsetHeight;
+  let x=e.clientX+pad,y=e.clientY+pad;
+  if(x+w>window.innerWidth-8)x=e.clientX-w-pad;
+  if(y+h>window.innerHeight-8)y=e.clientY-h-pad;
+  tip.style.left=x+'px';tip.style.top=y+'px';
+}
+function hideTip(){tip.classList.remove('on');}
+</script>
+
+
+</body></html>

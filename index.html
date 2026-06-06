@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<!-- saved from url=(0053)file:///Users/siddeshchoudhary/Downloads/index_2.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ICRA 2026 · The Market Map of Robotics Research</title>
-<link rel="preconnect" href="https://fonts.googleapis.com/">
-<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="./index_files/css2" rel="stylesheet">
+<title>ICRA + CVPR 2026 · The Market Map of Robotics Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:opsz@6..72&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#100f0b; --panel:#19170f; --panel2:#211e15; --line:#332f22;
@@ -136,172 +136,27 @@
 <body>
 <div class="wrap">
   <header>
-    <div class="kicker">ICRA 2026 · Vienna · Robotics Research</div>
+    <div class="kicker">ICRA + CVPR 2026 · Robotics Research</div>
     <h1>A Market Map of <em>Robotics Research</em></h1>
     <p class="sub">Every paper is one bet on one durable problem. Rows are problems, columns are technical bets. <b>Hover</b> a tile for the one-line summary, <b>click</b> to open the paper.</p>
     <p class="sub" style="margin-top:8px"><b style="color:var(--amber)">Missed a paper?</b> DM or reply <a href="https://twitter.com/Siddesh_239" target="_blank" rel="noopener" style="color:var(--amber)">@Siddesh_239</a> and I'll add it for everyone.</p>
     <div class="controls">
       <div class="toggle">
-        <button id="bMap" class="on" onclick="setView(&#39;map&#39;)">Market Map</button>
-        <button id="bTime" onclick="setView(&#39;time&#39;)">Timeline</button>
+        <button id="bMap" class="on" onclick="setView('map')">Market Map</button>
+        <button id="bTime" onclick="setView('time')">Timeline</button>
       </div>
     </div>
   </header>
 
   <div class="scroll" id="mapWrap">
-    <div class="matrix" id="matrix" style="grid-template-columns: 150px repeat(8, minmax(0px, 1fr));"><div class="corner"><div class="mono" style="font-size:10px;color:var(--faint);letter-spacing:.2em">PROBLEM ↓ / BET →</div></div><div class="colhead"><div class="ct" style="color:var(--c-human)">Human Video</div><div class="cn">bypass the embodiment gap</div></div><div class="colhead"><div class="ct" style="color:var(--c-teleop)">Scale Teleop</div><div class="cn">keep data robot-native</div></div><div class="colhead"><div class="ct" style="color:var(--c-synth)">Synthetic / Sim Data</div><div class="cn">generate data in sim</div></div><div class="colhead"><div class="ct" style="color:var(--c-prior)">Foundation-Model Priors</div><div class="cn">borrow structure from VLMs</div></div><div class="colhead"><div class="ct" style="color:var(--c-world)">World Models / Real-to-Sim</div><div class="cn">predict &amp; reconstruct worlds</div></div><div class="colhead"><div class="ct" style="color:var(--c-reward)">Reward Models</div><div class="cn">score without ground truth</div></div><div class="colhead"><div class="ct" style="color:var(--c-robust)">Robustness &amp; Monitoring</div><div class="cn">catch &amp; survive failures</div></div><div class="colhead"><div class="ct" style="color:var(--c-ctrl)">Control &amp; Planning</div><div class="cn">move the body, plan fast</div></div><div class="rowhead"><div class="rt">Data Bottleneck</div><div class="rn">the dominant story</div></div><div class="cell has"><button class="chip" data-id="masq" style="--ch: var(--c-human); animation-delay: 40ms;">Masquerade<span class="yr">2025-08 · Stanford (Bohg)</span></button><button class="chip" data-id="emma" style="--ch: var(--c-human); animation-delay: 80ms;"><span class="star">★ </span>EMMA<span class="yr">2025-09 · Georgia Tech (Danfei Xu)</span></button><button class="chip" data-id="hego" style="--ch: var(--c-human); animation-delay: 120ms;"><span class="star">★ </span>HumanEgo<span class="yr">2026-05 · U. Maryland</span></button><button class="chip" data-id="react" style="--ch: var(--c-human); animation-delay: 160ms;">ReActor<span class="yr">2026-05 · ETH / Disney-style</span></button><button class="chip" data-id="egovla" style="--ch: var(--c-human); animation-delay: 200ms;">egoVLA<span class="yr">2025-09 · Kyoto + NII + Sony</span></button></div><div class="cell has"><button class="chip" data-id="cobalt" style="--ch: var(--c-teleop); animation-delay: 240ms;"><span class="star">★ </span>COBALT<span class="yr">2026-06 · PAIR Lab (Animesh Garg, GT)</span></button></div><div class="cell has"><button class="chip" data-id="molmo" style="--ch: var(--c-synth); animation-delay: 280ms;"><span class="star">★ </span>MolmoBot<span class="yr">2026-03 · Ai2 + UW + Princeton</span></button></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="rowhead"><div class="rt">Sim-to-Real &amp; World Models</div><div class="rn">build a usable world</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="neurok" style="--ch: var(--c-world); animation-delay: 320ms;">NeuROK<span class="yr">2026-05 · Stanford (Jiajun Wu)</span></button><button class="chip" data-id="r2s" style="--ch: var(--c-world); animation-delay: 360ms;"><span class="star">★ </span>Real-to-Sim Eval (GS)<span class="yr">2025-11 · Columbia + SceniX (Yunzhu Li)</span></button></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="rowhead"><div class="rt">Generalization &amp; Long-Horizon</div><div class="rn">don't overfit; chain steps</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="stack" style="--ch: var(--c-prior); animation-delay: 400ms;">STACK<span class="yr">2026-06 · Stanford (Fei-Fei, Jiajun Wu)</span></button><button class="chip" data-id="vlm3" style="--ch: var(--c-prior); animation-delay: 440ms;">VLM³<span class="yr">2026-05 · Meta FAIR</span></button><button class="chip" data-id="ivra" style="--ch: var(--c-prior); animation-delay: 480ms;">IVRA<span class="yr">2026-01 · Stony Brook (Ryoo)</span></button><button class="chip" data-id="dynaflip" style="--ch: var(--c-prior); animation-delay: 520ms;">DynaFLIP<span class="yr">2026-05 · SNU + UMD + Georgia Tech</span></button></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="rowhead"><div class="rt">Reward &amp; Supervision</div><div class="rn">what signal trains RL?</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="sole" style="--ch: var(--c-reward); animation-delay: 560ms;">SOLE-R1<span class="yr">2026-03 · MIT + RAI Institute</span></button><button class="chip" data-id="robometer" style="--ch: var(--c-reward); animation-delay: 600ms;">Robometer<span class="yr">2026-03 · USC / UW / NVIDIA / MIT</span></button><button class="chip" data-id="mirl" style="--ch: var(--c-reward); animation-delay: 640ms;">Masked IRL<span class="yr">2025-11 · MIT CSAIL (Bobu)</span></button></div><div class="cell"></div><div class="cell"></div><div class="rowhead"><div class="rt">Deployment Reliability</div><div class="rn">trust it in the wild</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="hns" style="--ch: var(--c-robust); animation-delay: 680ms;"><span class="star">★ </span>Hide-and-Seek<span class="yr">2026-05 · Georgia Tech (S. Li, Z. Kira)</span></button><button class="chip" data-id="ve2vf" style="--ch: var(--c-robust); animation-delay: 720ms;">VE2VF<span class="yr">2026-05 · TU Wien / DLR</span></button><button class="chip" data-id="seal" style="--ch: var(--c-robust); animation-delay: 760ms;">SEAL<span class="yr">2025-10 · CMU + NVIDIA</span></button></div><div class="cell"></div><div class="rowhead"><div class="rt">Humanoid &amp; Whole-Body</div><div class="rn">coordinate the whole body</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="bfm" style="--ch: var(--c-ctrl); animation-delay: 800ms;"><span class="star">★ </span>BFM (Behavior FM)<span class="yr">2025-09 · Shanghai AI Lab + PKU</span></button><button class="chip" data-id="m4d" style="--ch: var(--c-ctrl); animation-delay: 840ms;">M4Diffuser<span class="yr">2025-09 · Hamburg + TUM + Agile Robots</span></button></div><div class="rowhead"><div class="rt">Efficient Adaptation</div><div class="rn">adapt fast, plan real-time</div></div><div class="cell has"><button class="chip" data-id="hand" style="--ch: var(--c-human); animation-delay: 880ms;">HAND<span class="yr">2025-05 · USC (Biyik, J. Zhang)</span></button></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell has"><button class="chip" data-id="tmrl" style="--ch: var(--c-ctrl); animation-delay: 920ms;">TMRL<span class="yr">2026-05 · UW + Amazon (A. Gupta)</span></button><button class="chip" data-id="gmpc" style="--ch: var(--c-ctrl); animation-delay: 960ms;">GMPC-IMLE<span class="yr">2026-03 · Simon Fraser University</span></button></div><div class="rowhead"><div class="rt">Dexterity &amp; Hardware</div><div class="rn">tracked gap — no paper yet</div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div></div>
+    <div class="matrix" id="matrix"></div>
   </div>
 
-  <div id="timeline"><div class="tlnote"><h3>The evolution that matters most — the Data Bottleneck</h3>
-    <p>Read top to bottom: the field first tries to <b>edit pixels</b> (Masquerade), then <b>co-train + retarget</b> (EMMA, ReActor), then <b>change the representation</b> so the human/robot gap vanishes (HumanEgo) — while a counter-camp just makes <b>teleop cheap and global</b> (COBALT). Same problem, shifting bet.</p></div><div class="trow"><div class="date">2025-05</div><div class="body">
-      <h4 onclick="window.open(&#39;https://liralab.usc.edu/handretrieval/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">HAND <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">USC (Biyik, J. Zhang) · Efficient Adaptation</div>
-      <p>Teach a robot a new task in minutes from ONE human hand demo, by retrieving matching sub-trajectories from existing play data.</p>
-      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
-      <span class="tag">data</span><span class="tag">control</span>
-    </div></div><div class="trow"><div class="date">2025-08</div><div class="body">
-      <h4 onclick="window.open(&#39;https://masquerade-robot.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">Masquerade <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Stanford (Bohg) · Data Bottleneck</div>
-      <p>Turn in-the-wild human videos into 'robotized' clips by editing the human out and a robot in, then co-train on them.</p>
-      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
-      <span class="tag">data</span>
-    </div></div><div class="trow"><div class="date">2025-09</div><div class="body">
-      <h4 onclick="window.open(&#39;https://biscue5.github.io/egovla-project-page/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">egoVLA <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Kyoto + NII + Sony · Data Bottleneck</div>
-      <p>Build a large VLA pre-training dataset straight from RAW egocentric human video — no hand-pose annotations.</p>
-      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
-      <span class="tag">data</span>
-    </div></div><div class="trow"><div class="date">2025-09</div><div class="body">
-      <h4 onclick="window.open(&#39;https://sites.google.com/view/m4diffuser&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">M4Diffuser <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Hamburg + TUM + Agile Robots · Humanoid &amp; Whole-Body</div>
-      <p>Multi-view diffusion policy + manipulability-aware whole-body control for robust mobile manipulation.</p>
-      <span class="tag" style="border-color:var(--c-ctrl);color:var(--c-ctrl)">Control &amp; Planning</span>
-      <span class="tag">control</span>
-    </div></div><div class="trow"><div class="date">2025-09</div><div class="body">
-      <h4 onclick="window.open(&#39;https://bfm4humanoid.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ BFM (Behavior FM) <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Shanghai AI Lab + PKU · Humanoid &amp; Whole-Body</div>
-      <p>A generative 'foundation model' for humanoid whole-body control: one pretrained model, many behaviors, fast adaptation to new ones.</p>
-      <span class="tag" style="border-color:var(--c-ctrl);color:var(--c-ctrl)">Control &amp; Planning</span>
-      <span class="tag">control</span>
-    </div></div><div class="trow"><div class="date">2025-09</div><div class="body">
-      <h4 onclick="window.open(&#39;https://ego-moma.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ EMMA <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Georgia Tech (Danfei Xu) · Data Bottleneck</div>
-      <p>Train MOBILE manipulation from human full-body motion data, sidestepping expensive mobile-robot teleoperation.</p>
-      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
-      <span class="tag">data</span>
-    </div></div><div class="trow"><div class="date">2025-10</div><div class="body">
-      <h4 onclick="window.open(&#39;https://yilin-wu98.github.io/steering-reasoning-vla/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">SEAL <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">CMU + NVIDIA · Deployment Reliability</div>
-      <p>Make a reasoning VLA 'do what it says': at runtime, pick the action sequence whose simulated outcome matches the model's own textual plan.</p>
-      <span class="tag" style="border-color:var(--c-robust);color:var(--c-robust)">Robustness &amp; Monitoring</span>
-      <span class="tag">control</span>
-    </div></div><div class="trow"><div class="date">2025-11</div><div class="body">
-      <h4 onclick="window.open(&#39;https://mit-clear-lab.github.io/Masked-IRL/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">Masked IRL <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">MIT CSAIL (Bobu) · Reward &amp; Supervision</div>
-      <p>Learn preference reward functions from demos + language, using an LLM to decide which parts of the state actually matter.</p>
-      <span class="tag" style="border-color:var(--c-reward);color:var(--c-reward)">Reward Models</span>
-      <span class="tag">reward</span>
-    </div></div><div class="trow"><div class="date">2025-11</div><div class="body">
-      <h4 onclick="window.open(&#39;https://real2sim-eval.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ Real-to-Sim Eval (GS) <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Columbia + SceniX (Yunzhu Li) · Sim-to-Real &amp; World Models</div>
-      <p>Evaluate policies in a photoreal digital twin built from real video — Gaussian Splatting for looks, a soft-body twin for dynamics — so sim success predicts real success.</p>
-      <span class="tag" style="border-color:var(--c-world);color:var(--c-world)">World Models / Real-to-Sim</span>
-      <span class="tag">world</span>
-    </div></div><div class="trow"><div class="date">2026-01</div><div class="body">
-      <h4 onclick="window.open(&#39;https://jongwoopark7978.github.io/IVRA/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">IVRA <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Stony Brook (Ryoo) · Generalization &amp; Long-Horizon</div>
-      <p>A training-free trick that sharpens a VLA's spatial understanding by reusing affinity hints already inside its own vision encoder.</p>
-      <span class="tag" style="border-color:var(--c-prior);color:var(--c-prior)">Foundation-Model Priors</span>
-      <span class="tag">control</span>
-    </div></div><div class="trow"><div class="date">2026-03</div><div class="body">
-      <h4 onclick="window.open(&#39;https://allenai.github.io/MolmoBot/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ MolmoBot <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Ai2 + UW + Princeton · Data Bottleneck</div>
-      <p>Large-scale SIMULATED data alone enables zero-shot real manipulation — no real-robot data, no task-specific fine-tuning.</p>
-      <span class="tag" style="border-color:var(--c-synth);color:var(--c-synth)">Synthetic / Sim Data</span>
-      <span class="tag">data</span>
-    </div></div><div class="trow"><div class="date">2026-03</div><div class="body">
-      <h4 onclick="window.open(&#39;https://gmpc-imle.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">GMPC-IMLE <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Simon Fraser University · Efficient Adaptation</div>
-      <p>A lightweight generative planner for real-time MPC — diverse trajectories, 20-100x faster than diffusion planners.</p>
-      <span class="tag" style="border-color:var(--c-ctrl);color:var(--c-ctrl)">Control &amp; Planning</span>
-      <span class="tag">control</span>
-    </div></div><div class="trow"><div class="date">2026-03</div><div class="body">
-      <h4 onclick="window.open(&#39;https://robometer.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">Robometer <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">USC / UW / NVIDIA / MIT · Reward &amp; Supervision</div>
-      <p>A general-purpose robotic reward model trained on trajectory comparisons — dense, video-language rewards usable zero-shot.</p>
-      <span class="tag" style="border-color:var(--c-reward);color:var(--c-reward)">Reward Models</span>
-      <span class="tag">reward</span>
-    </div></div><div class="trow"><div class="date">2026-03</div><div class="body">
-      <h4 onclick="window.open(&#39;https://philip-mit.github.io/sole-r1/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">SOLE-R1 <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">MIT + RAI Institute · Reward &amp; Supervision</div>
-      <p>A video-language reasoning model used as the SOLE reward for on-robot RL — robots learn unseen tasks from random init, no ground-truth reward.</p>
-      <span class="tag" style="border-color:var(--c-reward);color:var(--c-reward)">Reward Models</span>
-      <span class="tag">reward</span>
-    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
-      <h4 onclick="window.open(&#39;https://dynaflip-robotics.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">DynaFLIP <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">SNU + UMD + Georgia Tech · Generalization &amp; Long-Horizon</div>
-      <p>A dynamics-aware visual backbone for manipulation: pretrain an encoder by aligning image transitions, language, and 3D flow so perception keeps control-relevant info.</p>
-      <span class="tag" style="border-color:var(--c-prior);color:var(--c-prior)">Foundation-Model Priors</span>
-      <span class="tag">control</span>
-    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
-      <h4 onclick="window.open(&#39;https://weirdlabuw.github.io/tmrl/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">TMRL <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">UW + Amazon (A. Gupta) · Efficient Adaptation</div>
-      <p>Bridge BC pretraining and RL fine-tuning so you can fine-tune a VLA (π0) in the real world in under an hour.</p>
-      <span class="tag" style="border-color:var(--c-ctrl);color:var(--c-ctrl)">Control &amp; Planning</span>
-      <span class="tag">control</span>
-    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
-      <h4 onclick="window.open(&#39;https://tuwien-asl.github.io/VE2VF/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">VE2VF <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">TU Wien / DLR · Deployment Reliability</div>
-      <p>Distill a vision-using teacher into a vision-FREE student that runs on force/torque + pose alone — robust contact-rich assembly.</p>
-      <span class="tag" style="border-color:var(--c-robust);color:var(--c-robust)">Robustness &amp; Monitoring</span>
-      <span class="tag">control</span>
-    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
-      <h4 onclick="window.open(&#39;https://arxiv.org/abs/2605.30834&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ Hide-and-Seek <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Georgia Tech (S. Li, Z. Kira) · Deployment Reliability</div>
-      <p>Detect VLA execution failures AT RUNTIME, localizing the failing actions from trajectory-level labels alone.</p>
-      <span class="tag" style="border-color:var(--c-robust);color:var(--c-robust)">Robustness &amp; Monitoring</span>
-      <span class="tag">reward</span>
-    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
-      <h4 onclick="window.open(&#39;https://github.com/facebookresearch/VLM3&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">VLM³ <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Meta FAIR · Generalization &amp; Long-Horizon</div>
-      <p>Standard VLMs are 'native 3D learners' — with no architecture or loss changes they do metric depth, pose, and correspondence.</p>
-      <span class="tag" style="border-color:var(--c-prior);color:var(--c-prior)">Foundation-Model Priors</span>
-      <span class="tag">reward</span>
-    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
-      <h4 onclick="window.open(&#39;https://chen-geng.com/neurok&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">NeuROK <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Stanford (Jiajun Wu) · Sim-to-Real &amp; World Models</div>
-      <p>Turn any static 3D shape into an interactive, simulatable 4D object — no physics annotations, no category assumptions.</p>
-      <span class="tag" style="border-color:var(--c-world);color:var(--c-world)">World Models / Real-to-Sim</span>
-      <span class="tag">world</span>
-    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
-      <h4 onclick="window.open(&#39;https://reports.aha.studio/20260531-1042-reactor-motion-retargeting.html&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">ReActor <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">ETH / Disney-style · Data Bottleneck</div>
-      <p>Physics-aware motion retargeting: move human mocap onto robots of different shape so the result is physically executable.</p>
-      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
-      <span class="tag">control</span>
-    </div></div><div class="trow"><div class="date">2026-05</div><div class="body">
-      <h4 onclick="window.open(&#39;https://humanego-ai.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ HumanEgo <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">U. Maryland · Data Bottleneck</div>
-      <p>Learn deployable policies from MINUTES of human egocentric (Aria) video — no robot data — and transfer zero-shot to new robots.</p>
-      <span class="tag" style="border-color:var(--c-human);color:var(--c-human)">Human Video</span>
-      <span class="tag">data</span><span class="tag">reward</span>
-    </div></div><div class="trow"><div class="date">2026-06</div><div class="body">
-      <h4 onclick="window.open(&#39;https://icra-stack.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">STACK <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">Stanford (Fei-Fei, Jiajun Wu) · Generalization &amp; Long-Horizon</div>
-      <p>Discover composable skills from a handful of unsegmented demos by letting foundation models extract spatial + temporal structure.</p>
-      <span class="tag" style="border-color:var(--c-prior);color:var(--c-prior)">Foundation-Model Priors</span>
-      <span class="tag">control</span>
-    </div></div><div class="trow"><div class="date">2026-06</div><div class="body">
-      <h4 onclick="window.open(&#39;https://cobalt-teleop.github.io/&#39;,&#39;_blank&#39;,&#39;noopener&#39;)" style="cursor:pointer" title="Open paper / project page">★ COBALT <span style="font-weight:400;color:var(--faint);font-size:12px">↗</span></h4>
-      <div class="meta">PAIR Lab (Animesh Garg, GT) · Data Bottleneck</div>
-      <p>Turn robot teleoperation into a cloud web service: anyone, anywhere, drives a robot from a smartphone.</p>
-      <span class="tag" style="border-color:var(--c-teleop);color:var(--c-teleop)">Scale Teleop</span>
-      <span class="tag">data</span>
-    </div></div></div>
+  <div id="timeline"></div>
 
   <footer>
-    <div>24 papers · 8 problems · 8 bets — a hand-built market map of robotics-research work around ICRA 2026. <span class="star" style="color:var(--amber)">★</span> = ones I found especially notable. Missed a paper? DM or reply <a href="https://twitter.com/Siddesh_239" target="_blank" rel="noopener" style="color:var(--amber)">@Siddesh_239</a>. Not affiliated with ICRA.</div>
-    <div class="legend" id="legend"><span><i style="background:var(--c-human)"></i>Human Video</span><span><i style="background:var(--c-teleop)"></i>Scale Teleop</span><span><i style="background:var(--c-synth)"></i>Synthetic / Sim Data</span><span><i style="background:var(--c-prior)"></i>Foundation-Model Priors</span><span><i style="background:var(--c-world)"></i>World Models / Real-to-Sim</span><span><i style="background:var(--c-reward)"></i>Reward Models</span><span><i style="background:var(--c-robust)"></i>Robustness &amp; Monitoring</span><span><i style="background:var(--c-ctrl)"></i>Control &amp; Planning</span></div>
+    <div>44 papers · 8 problems · 8 bets — a hand-built market map of robotics-research work around ICRA and CVPR 2026. <span class="star" style="color:var(--amber)">★</span> = ones I found especially notable. Missed a paper? DM or reply <a href="https://twitter.com/Siddesh_239" target="_blank" rel="noopener" style="color:var(--amber)">@Siddesh_239</a>. Not affiliated with ICRA.</div>
+    <div class="legend" id="legend"></div>
   </footer>
 </div>
 
@@ -326,7 +181,7 @@ const ROWS = [
   {id:"deploy",  t:"Deployment Reliability",     n:"trust it in the wild"},
   {id:"humanoid",t:"Humanoid & Whole-Body",      n:"coordinate the whole body"},
   {id:"eff",     t:"Efficient Adaptation",       n:"adapt fast, plan real-time"},
-  {id:"dex",     t:"Dexterity & Hardware",       n:"tracked gap — no paper yet"},
+  {id:"dex",     t:"Dexterity & Hardware",       n:"hands still lag grippers"},
 ];
 
 const P = [
@@ -425,6 +280,82 @@ const P = [
  {id:"dynaflip",title:"DynaFLIP",row:"gen",bet:"prior",date:"2026-05",lab:"SNU + UMD + Georgia Tech",region:"asia",layers:["control"],star:false,
   one:"A dynamics-aware visual backbone for manipulation: pretrain an encoder by aligning image transitions, language, and 3D flow so perception keeps control-relevant info.",
   links:[["Project","https://dynaflip-robotics.github.io/"],["arXiv 2605.30350","https://arxiv.org/abs/2605.30350"],["Code","https://github.com/JU-SUK/DynaFLIP"]]},
+
+ {id:"wbloco",title:"WB Locomotion",row:"humanoid",bet:"ctrl",date:"2026-04",lab:"ETH RSL + EPFL + SFU",region:"europe",layers:["control"],star:false,
+  one:"A whole-body humanoid that climbs, vaults, and crosses terrain by diffusing terrain-aware reference motions and tracking them with RL (deployed on a Unitree G1).",
+  links:[["Project","https://wholebodylocomotion.github.io/"],["arXiv 2604.17335","https://arxiv.org/abs/2604.17335"]]},
+
+ {id:"xlvla",title:"XL-VLA",row:"dex",bet:"prior",date:"2026-03",lab:"UCSD + Amazon FAR + Berkeley",region:"us",layers:["control"],star:true,
+  one:"One VLA controls many dexterous hands via a shared, hand-agnostic latent action space that decodes into each hand's joints. Beats raw-joint baselines ~+40%, transfers zero-shot to new hand-task combos. CVPR 2026 Highlight.",
+  links:[["Project","https://xl-vla.github.io/"],["arXiv 2603.10158","https://arxiv.org/abs/2603.10158"],["Code","https://github.com/luccachiang/XL-VLA"]]},
+
+ {id:"tau0wm",title:"τ0-WM",row:"sim",bet:"world",date:"2026-05",lab:"AgiBot / SII",region:"china",layers:["world-model"],star:true,
+  one:"A 5B unified video-action world model: one shared representation predicts action chunks and imagines their video + task-progress consequences, so the robot can propose, simulate, evaluate, and revise actions before executing. Trained on ~27k hrs of teleop + UMI + egocentric video.",
+  links:[["Project","https://finch.agibot.com/research/tau0-wm"],["Paper","https://finch-static.agibot.com/VAM/blog/tau_0_wm.pdf"],["Code","https://github.com/sii-research/tau-0-wm"]]},
+ {id:"dream2flow",title:"Dream2Flow",row:"sim",bet:"world",date:"2025-12",lab:"Stanford (Fei-Fei, Wu)",region:"us",layers:["policy"],star:false,
+  one:"Uses a pretrained video-generation model to imagine how objects should move, reconstructs that as 3D object flow, then tracks the flow to manipulate rigid / articulated / deformable / granular objects zero-shot, with no task demos.",
+  links:[["Project","https://dream2flow.github.io/"],["arXiv 2512.24766","https://arxiv.org/abs/2512.24766"],["Code","https://github.com/KDharmarajanDev/Dream2Flow"]]},
+ {id:"dwm",title:"DWM",row:"sim",bet:"world",date:"2025-12",lab:"Seoul National Univ",region:"asia",layers:["world-model"],star:false,
+  one:"Dexterous World Model: a scene-action-conditioned video-diffusion model that turns a static 3D scan into an interactive digital twin, generating plausible human-scene interaction videos from egocentric hand motion.",
+  links:[["Project","https://snuvclab.github.io/dwm/"],["arXiv 2512.17907","https://arxiv.org/abs/2512.17907"],["Code","https://github.com/snuvclab/dwm"]]},
+ {id:"assistmimic",title:"AssistMimic",row:"humanoid",bet:"ctrl",date:"2026-03",lab:"CMU + Keio",region:"us",layers:["control"],star:false,
+  one:"First physics-based controller for assistive human-human interaction: multi-agent RL jointly trains a supporter and recipient humanoid to track high-contact caregiving motions, with contact-promoting rewards and partner-aware retargeting. CVPR 2026.",
+  links:[["Project","https://yutoshibata07.github.io/AssistMimic/"],["arXiv 2603.11346","https://arxiv.org/abs/2603.11346"]]},
+ {id:"doorman",title:"DoorMan",row:"humanoid",bet:"synth",date:"2025-12",lab:"NVIDIA GEAR + Berkeley",region:"us",layers:["policy"],star:true,
+  one:"First humanoid sim-to-real policy for diverse articulated loco-manipulation (opening doors) from pure RGB. Trained entirely in sim with massive randomization + teacher-student-bootstrap + GRPO; beats human teleoperators by up to 31.7%.",
+  links:[["Project","https://doorman-humanoid.github.io/"],["arXiv 2512.01061","https://arxiv.org/abs/2512.01061"],["Code","https://github.com/NVlabs/GR00T-VisualSim2Real"]]},
+
+ {id:"robodream",title:"RoboDream",row:"data",bet:"world",date:"2026-06",lab:"USC PSI + Toyota Research",region:"us",layers:["data"],star:true,
+  one:"Compositional video world model that synthesizes photoreal robot demos with new objects, scenes, and views by anchoring generation to rendered robot motion. Cuts real-data needs and lifts policy success from 36% to 62%.",
+  links:[["Project","https://junjieye.com/RoboDream/"],["arXiv 2606.02577","https://arxiv.org/abs/2606.02577"],["Code","https://github.com/Jay-Ye/RoboDream"]]},
+
+ {id:"affordgen",title:"AffordGen",row:"data",bet:"synth",date:"2026-04",lab:"Tsinghua (Huazhe Xu)",region:"china",layers:["data"],star:false,
+  one:"Generates diverse manipulation demos from 3D meshes using affordance keypoint correspondence plus 3D generative models, then trains a closed-loop policy that transfers zero-shot to unseen objects.",
+  links:[["arXiv 2604.10579","https://arxiv.org/abs/2604.10579"]]},
+
+ {id:"zprl",title:"ZPRL",row:"eff",bet:"ctrl",date:"2026-05",lab:"Tsinghua + HKU (Huazhe Xu)",region:"china",layers:["policy","control"],star:false,
+  one:"Adapts a frozen pretrained policy online by having RL nudge a compact bottleneck latent instead of raw actions. Smoother exploration, +33.7% real-world success.",
+  links:[["Project","https://manutdmoon.github.io/ZPRL/"],["arXiv 2605.19919","https://arxiv.org/abs/2605.19919"],["Code","https://github.com/manutdmoon/ZPRL"]]},
+
+ {id:"walloss",title:"WALL-OSS",row:"gen",bet:"prior",date:"2025-09",lab:"X-Square-Robot (X\u00b2)",region:"china",layers:["policy"],star:false,
+  one:"Open-source embodied foundation model that ignites a VLM into the action space via large-scale multimodal pretraining: embodiment-aware reasoning, language-to-action, chain-of-thought manipulation.",
+  links:[["Code","https://github.com/X-Square-Robot/wall-x"],["Project","https://x2robot.com/en/research"]]},
+
+ {id:"cosmos3",title:"Cosmos 3",row:"sim",bet:"world",date:"2026-05",lab:"NVIDIA Cosmos Lab",region:"us",layers:["world-model"],star:true,
+  one:"NVIDIA's omnimodal world model for Physical AI. One model across text, image, video, audio, and action that reasons, generates, acts as a robot policy, and does forward/inverse dynamics.",
+  links:[["Project","https://research.nvidia.com/labs/cosmos-lab/cosmos3"],["Models (HF)","https://huggingface.co/collections/nvidia/cosmos3"],["Code","https://github.com/NVIDIA/cosmos"]]},
+
+ {id:"physx",title:"PhysX-Anything",row:"sim",bet:"synth",date:"2025-11",lab:"NTU + Shanghai AI Lab",region:"asia",layers:["world"],star:false,
+  one:"Turns a single image into a simulation-ready 3D asset with geometry, articulation, and physics, ready to drop into a simulator for contact-rich policy learning. CVPR 2026.",
+  links:[["Project","https://physx-anything.github.io"],["arXiv 2511.13648","https://arxiv.org/abs/2511.13648"],["Code","https://github.com/ziangcao0312/PhysX-Anything"]]},
+
+ {id:"omnivggt",title:"OmniVGGT",row:"gen",bet:"prior",date:"2025-11",lab:"HKUST/NTU + Alibaba",region:"china",layers:["world"],star:false,
+  one:"Geometry-grounded 3D foundation model that flexibly absorbs depth and pose cues via a GeoAdapter. Plugged into a VLA, it measurably improves spatial understanding on robot tasks.",
+  links:[["Project","https://livioni.github.io/OmniVGGT-official/"],["arXiv 2511.10560","https://arxiv.org/abs/2511.10560"],["Code","https://github.com/Livioni/OmniVGGT-official"]]},
+
+ {id:"worldlens",title:"WorldLens",row:"sim",bet:"world",date:"2025-12",lab:"WorldBench / NUS",region:"asia",layers:["world"],star:false,
+  one:"Full-spectrum benchmark for (driving) world models that scores geometry, physics, closed-loop control, and downstream value, not just visual realism. Ships a 26K human-scored set and a VLM critic.",
+  links:[["Project","https://worldbench.github.io/worldlens"],["arXiv 2512.10958","https://arxiv.org/abs/2512.10958"],["Code","https://github.com/worldbench/WorldLens"]]},
+
+ {id:"hitter",title:"HITTER",row:"humanoid",bet:"ctrl",date:"2025-08",lab:"UC Berkeley (Sreenath)",region:"us",layers:["control"],star:false,
+  one:"A humanoid that plays table tennis against humans: a model-based ball and racket planner drives an RL whole-body controller, sustaining up to 106 consecutive shots with sub-second reactive control.",
+  links:[["Project","https://humanoid-table-tennis.github.io"],["arXiv 2508.21043","https://arxiv.org/abs/2508.21043"]]},
+
+ {id:"simdist",title:"SimDist",row:"sim",bet:"world",date:"2026-03",lab:"UT Austin + UW + FieldAI",region:"us",layers:["world-model"],star:true,
+  one:"Pretrains a latent world model in sim, then crosses the sim-to-real gap by freezing the encoder, reward, and value and finetuning only the dynamics, sidestepping the catastrophic forgetting of end-to-end RL. RSS 2026.",
+  links:[["Project","https://sim-dist.github.io/"],["arXiv 2603.15759","https://arxiv.org/abs/2603.15759"],["Code","https://github.com/CLeARoboticsLab/simdist"]]},
+
+ {id:"recuriosity",title:"ReCuriosity",row:"rewardp",bet:"reward",date:"2026-05",lab:"UToronto + Berkeley + Wayve",region:"canada",layers:["reward","policy"],star:false,
+  one:"Makes curiosity-driven 3D exploration work by giving the forward model episodic memory (online 3D Gaussian Splatting) and the agent its own memory. The model's rendering error becomes the intrinsic reward.",
+  links:[["Project","https://recuriosity.github.io"],["arXiv 2605.22814","https://arxiv.org/abs/2605.22814"],["Code","https://github.com/recuriosity/recuriosity"]]},
+
+ {id:"pointworld",title:"PointWorld",row:"sim",bet:"world",date:"2026-01",lab:"Stanford + NVIDIA (Fei-Fei, Fox)",region:"us",layers:["world-model"],star:true,
+  one:"A large pretrained 3D world model that forecasts full-scene 3D point flow from RGB-D and actions, runs at 0.1s inside MPC, and does zero-shot manipulation from a single in-the-wild image. CVPR 2026 Highlight.",
+  links:[["Project","https://point-world.github.io"],["arXiv 2601.03782","https://arxiv.org/abs/2601.03782"],["Code","https://github.com/NVlabs/PointWorld"]]},
+
+ {id:"diffmpc",title:"Diffusion-MPC",row:"eff",bet:"ctrl",date:"2025-10",lab:"Harvard (Yilun Du, Heng Yang)",region:"us",layers:["control"],star:false,
+  one:"Uses a diffusion model as the dynamics prior inside MPC for legged locomotion. Reward and constraint steering at each denoising step gives flexible test-time adaptation with no retraining. ICRA 2026.",
+  links:[["Project","https://flexible-diffusion-mpc.github.io"],["arXiv 2510.04234","https://arxiv.org/abs/2510.04234"],["Code","https://github.com/hrh6666/Flexible-Locomotion-Learning-with-Diffusion-Model-Predictive-Control"]]},
 ];
 
 // ---- build matrix ----
@@ -525,6 +456,5 @@ function moveTip(e){
 }
 function hideTip(){tip.classList.remove('on');}
 </script>
-
-
-</body></html>
+</body>
+</html>

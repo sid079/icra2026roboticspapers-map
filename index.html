@@ -155,7 +155,7 @@
   <div id="timeline"></div>
 
   <footer>
-    <div>44 papers · 8 problems · 8 bets — a hand-built market map of robotics-research work around ICRA and CVPR 2026. <span class="star" style="color:var(--amber)">★</span> = ones I found especially notable. Missed a paper? DM or reply <a href="https://twitter.com/Siddesh_239" target="_blank" rel="noopener" style="color:var(--amber)">@Siddesh_239</a>. Not affiliated with ICRA.</div>
+    <div>47 papers · 8 problems · 8 bets — a hand-built market map of robotics-research work around ICRA and CVPR 2026. <span class="star" style="color:var(--amber)">★</span> = ones I found especially notable. Missed a paper? DM or reply <a href="https://twitter.com/Siddesh_239" target="_blank" rel="noopener" style="color:var(--amber)">@Siddesh_239</a>. Not affiliated with ICRA.</div>
     <div class="legend" id="legend"></div>
   </footer>
 </div>
@@ -356,6 +356,18 @@ const P = [
  {id:"diffmpc",title:"Diffusion-MPC",row:"eff",bet:"ctrl",date:"2025-10",lab:"Harvard (Yilun Du, Heng Yang)",region:"us",layers:["control"],star:false,
   one:"Uses a diffusion model as the dynamics prior inside MPC for legged locomotion. Reward and constraint steering at each denoising step gives flexible test-time adaptation with no retraining. ICRA 2026.",
   links:[["Project","https://flexible-diffusion-mpc.github.io"],["arXiv 2510.04234","https://arxiv.org/abs/2510.04234"],["Code","https://github.com/hrh6666/Flexible-Locomotion-Learning-with-Diffusion-Model-Predictive-Control"]]},
+
+ {id:"amplify",title:"AMPLIFY",row:"data",bet:"human",date:"2025-06",lab:"Georgia Tech (Animesh Garg)",region:"us",layers:["data","world-model"],star:true,
+  one:"Learn from action-free video via latent keypoint-motion prediction, then decode the motion to actions. The forward model trains on any video and the inverse model on any interaction data, so policies generalize from human video with zero action labels.",
+  links:[["Project","https://amplify-robotics.github.io/"],["arXiv 2506.14198","https://arxiv.org/abs/2506.14198"],["Code","https://github.com/pairlab/AMPLIFY"]]},
+
+ {id:"softmimicgen",title:"SoftMimicGen",row:"data",bet:"synth",date:"2026-03",lab:"NVIDIA + UofT + GT (Garg, Mandlekar)",region:"us",layers:["data"],star:true,
+  one:"Extend MimicGen to deformable objects (rope, cloth, tissue, plush) via non-rigid registration: 1 to 10 human demos become ~1,000 sim demos per task across 4 embodiments, with zero-shot sim-to-real and sim-real co-training.",
+  links:[["Project","https://softmimicgen.github.io/"],["arXiv 2603.25725","https://arxiv.org/abs/2603.25725"]]},
+
+ {id:"dexora",title:"Dexora",row:"dex",bet:"teleop",date:"2026-05",lab:"Tsinghua + BAAI (+ HKU/SJTU/PKU)",region:"china",layers:["data","control"],star:true,
+  one:"First open-source VLA for dual-arm + dual-hand + high-DoF (36-DoF) dexterity, built on a hybrid exoskeleton-plus-Vision-Pro teleop rig and a large open LeRobot dataset, with a data-quality discriminator that weights training by clip quality.",
+  links:[["Project","https://dexoravla.github.io/"],["arXiv 2605.18722","https://arxiv.org/abs/2605.18722"],["Code","https://github.com/dexoravla/Dexora"]]},
 ];
 
 // ---- build matrix ----
